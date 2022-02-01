@@ -162,7 +162,7 @@
             </div>
             <div class="col-8 m-2">
                 <div class="text-center">
-                    <img src="./images/sample.jpg" class="img-fluid rounded border border-dark p-2" />
+                    <?php echo "<img src='images/sample.jpg?id=".time()."'" ?>
                 </div>
             </div>
         </div>
