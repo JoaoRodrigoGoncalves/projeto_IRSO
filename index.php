@@ -158,7 +158,7 @@
         </div>
         <div class="row mt-2">
             <div class="col m-2 text-center">
-                Última imagem captada pela camara de vigilância.
+                <a href="enviarficheiros.html">Enviar ficheiro</a>
             </div>
             <div class="col-8 m-2">
                 <div class="text-center">
