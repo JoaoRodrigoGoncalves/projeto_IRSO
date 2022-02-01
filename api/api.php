@@ -18,6 +18,13 @@
                     file_put_contents("../dados/temperatura/log.txt", $data, FILE_APPEND);
                     break;
 
+                case 'ralo_agua':
+                    file_put_contents("../dados/ralo_agua/valor.txt", $_POST['valor']);
+                    file_put_contents("../dados/ralo_agua/hora.txt", $_POST['hora']);
+                    $data = "\n" . $_POST['hora'] . ";" . $_POST['valor'];
+                    file_put_contents("../dados/ralo_agua/log.txt", $data, FILE_APPEND);
+                    break;
+                
                 default:
                     http_response_code(400);
             }
@@ -29,7 +36,15 @@
             if(isset($_GET['nome'])){
                 switch($_GET['nome']){
                     case 'detetor_fumo':
+                        echo file_get_contents("../files/detetor_fumo/valor.txt");
+                        break;
+
+                    case 'temperatura':
                         echo file_get_contents("../files/temperatura/valor.txt");
+                        break;
+                    
+                    case 'ralo_agua':
+                        echo file_get_contents("../files/ralo_agua/valor.txt");
                         break;
 
                     default:

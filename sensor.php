@@ -8,6 +8,7 @@
     //       Nome do Sensor
     $unidade['detetor_fumo'] = "%";
     $unidade['temperatura'] = "Cº";
+    $unidade['ralo_agua'] = "cm";
 
     /* Estados dos Sensores */
 
@@ -18,6 +19,11 @@
     $estado_sensor['temperatura']['trip_value'] = 30;
     $estado_sensor['temperatura']['on'] = "<span style=\"color: green;\">Ligado</span>";
     $estado_sensor['temperatura']['off'] = "<span style=\"color: red;\">Desligado</span>";
+
+    $estado_sensor['ralo_agua']['trip_value'] = 4;
+    $estado_sensor['ralo_agua']['on'] = "<span style=\"color: green;\">Aberto</span>";
+    $estado_sensor['ralo_agua']['off'] = "<span style=\"color: red;\">Fechado</span>";
+
 
 ?>
 <!DOCTYPE html>
@@ -100,14 +106,21 @@
                         <div class="card-header">Histórico do Sensor</div>
                         <ul class="list-group list-group-flush" style="max-height: 54vh; overflow-y: scroll;">
                             <?php
-                            $list = file_get_contents("./dados/" . $_GET["nome"] . "/log.txt");
-                            $dados = explode("\n", $list);
-                            foreach (array_reverse($dados) as $linha) {
-                                if (!empty($linha)) {
-                                    list($data_hora, $valor) = explode(";", $linha);
-                                    echo "<li class=\"list-group-item\">[" . $data_hora . "] Valor: " . $valor . $unidade[$_GET['nome']] . "</li>";
+                                $list = file_get_contents("./dados/" . $_GET["nome"] . "/log.txt");
+                                $dados = explode("\n", $list);
+                                if(count($dados) > 1)
+                                {
+                                    foreach (array_reverse($dados) as $key => $linha) { 
+                                        if (!empty($linha) && ($key != count($dados)-1)) { // primeira linha é uma quebra de linha
+                                            list($data_hora, $valor) = explode(";", $linha);
+                                            echo "<li class=\"list-group-item\">[" . $data_hora . "] Valor: " . $valor . $unidade[$_GET['nome']] . "</li>";
+                                        }
+                                    }
                                 }
-                            }
+                                else
+                                {
+                                    echo "<li class=\"list-group-item text-center\">Sem informação a mostrar</li>";
+                                }
                             ?>
                         </ul>
                     </div>
@@ -120,7 +133,7 @@
                             <use xlink:href="#bootstrap"></use>
                         </svg>
                     </a>
-                    <span class="text-muted">© 2022 Padaria Inteligente, LDA</span>
+                    <span class="text-muted">© 2022 Bruno Silva, João Gonçalves, Tiago Amaro</span>
                 </div>
 
                 <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
