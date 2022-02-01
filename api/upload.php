@@ -5,6 +5,7 @@
         {
             if(move_uploaded_file($_FILES['imagem']['tmp_name'], "../images/camara.jpg"))
             {
+                file_put_contents("../dados/camara/hora.txt", date("Y/m/d H:i:s"));
                 http_response_code(200); // ok
             }
             else

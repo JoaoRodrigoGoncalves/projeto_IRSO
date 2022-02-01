@@ -8,7 +8,7 @@ from requests import (post, get)
 
 camera = cv.VideoCapture(0)
 delay = 3000
-url = 'http://127.0.0.1/api/upload.php'
+url = 'http://127.0.0.1/api_padaria/api/upload.php'
 
 def send_file(file):
     print("A enviar...")

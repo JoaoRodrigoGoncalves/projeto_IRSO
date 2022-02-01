@@ -25,6 +25,27 @@
                     file_put_contents("../dados/ralo_agua/log.txt", $data, FILE_APPEND);
                     break;
                 
+                case 'movimento':
+                    file_put_contents("../dados/movimento/valor.txt", $_POST['valor']);
+                    file_put_contents("../dados/movimento/hora.txt", $_POST['hora']);
+                    $data = "\n" . $_POST['hora'] . ";" . $_POST['valor'];
+                    file_put_contents("../dados/movimento/log.txt", $data, FILE_APPEND);
+                    break;
+
+                case 'luz':
+                    file_put_contents("../dados/luz/valor.txt", $_POST['valor']);
+                    file_put_contents("../dados/luz/hora.txt", $_POST['hora']);
+                    $data = "\n" . $_POST['hora'] . ";" . $_POST['valor'];
+                    file_put_contents("../dados/luz/log.txt", $data, FILE_APPEND);
+                    break;
+
+                case 'campainha':
+                    file_put_contents("../dados/campainha/valor.txt", $_POST['valor']);
+                    file_put_contents("../dados/campainha/hora.txt", $_POST['hora']);
+                    $data = "\n" . $_POST['hora'] . ";" . $_POST['valor'];
+                    file_put_contents("../dados/campainha/log.txt", $data, FILE_APPEND);
+                    break;
+
                 default:
                     http_response_code(400);
             }
@@ -33,26 +54,15 @@
         }
     }else{
         if($_SERVER['REQUEST_METHOD'] == "GET"){
-            if(isset($_GET['nome'])){
-                switch($_GET['nome']){
-                    case 'detetor_fumo':
-                        echo file_get_contents("../files/detetor_fumo/valor.txt");
-                        break;
-
-                    case 'temperatura':
-                        echo file_get_contents("../files/temperatura/valor.txt");
-                        break;
-                    
-                    case 'ralo_agua':
-                        echo file_get_contents("../files/ralo_agua/valor.txt");
-                        break;
-
-                    default:
-                        http_response_code(404);
-                }
-            }else{
-                http_response_code(400);
-            }
+            $response = array(
+                'detetor_fumo' => file_get_contents("../dados/detetor_fumo/valor.txt"),
+                'temperatura' => file_get_contents("../dados/temperatura/valor.txt"),
+                'ralo_agua' => file_get_contents("../dados/ralo_agua/valor.txt"),
+                'movimento' => file_get_contents("../dados/movimento/valor.txt"),
+                'luz' => file_get_contents("../dados/luz/valor.txt"),
+                'campainha' => file_get_contents("../dados/campainha/valor.txt")
+            );
+            echo json_encode($response);
         }else{
             http_response_code(405);
         }

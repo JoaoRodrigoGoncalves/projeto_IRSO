@@ -1,31 +1,3 @@
-<?php
-    if (!isset($_GET['nome'])) {
-        header("Location: ./"); // voltar para trás caso não exista nenhum sensor especificado
-    }
-
-    /* Unidades por Sensor*/
-
-    //       Nome do Sensor
-    $unidade['detetor_fumo'] = "%";
-    $unidade['temperatura'] = "Cº";
-    $unidade['ralo_agua'] = "cm";
-
-    /* Estados dos Sensores */
-
-    $estado_sensor['detetor_fumo']['trip_value'] = 39;
-    $estado_sensor['detetor_fumo']['on'] = "<span style=\"color: red;\">Alarme Ativo</span>";
-    $estado_sensor['detetor_fumo']['off'] = "<span style=\"color: green;\">A monitorizar...</span>";
-
-    $estado_sensor['temperatura']['trip_value'] = 30;
-    $estado_sensor['temperatura']['on'] = "<span style=\"color: green;\">Ligado</span>";
-    $estado_sensor['temperatura']['off'] = "<span style=\"color: red;\">Desligado</span>";
-
-    $estado_sensor['ralo_agua']['trip_value'] = 4;
-    $estado_sensor['ralo_agua']['on'] = "<span style=\"color: green;\">Aberto</span>";
-    $estado_sensor['ralo_agua']['off'] = "<span style=\"color: red;\">Fechado</span>";
-
-
-?>
 <!DOCTYPE html>
 <html lang="pt">
     <head>
@@ -38,6 +10,60 @@
         <meta http-equiv="refresh" content="15" />
     </head>
     <body>
+        <?php
+            if (!isset($_GET['nome'])) {
+                header("Location: ./"); // voltar para trás caso não exista nenhum sensor especificado
+            }
+
+            require("./funcao_calculo.php");
+
+            /* Nome Sensores */
+
+            $nome_sensor['detetor_fumo'] = "Detetor de Incêndio";
+            $nome_sensor['temperatura'] = "Ventilação";
+            $nome_sensor['ralo_agua'] = "Ralo contra Inundação";
+            $nome_sensor['movimento'] = "Sensor Movimento";
+            $nome_sensor['luz'] = "Iluminação";
+            $nome_sensor['campainha'] = "Campainha";
+
+            /* Unidades por Sensor*/
+
+            //       Nome do Sensor
+            $unidade['detetor_fumo'] = "%";
+            $unidade['temperatura'] = "Cº";
+            $unidade['ralo_agua'] = "cm";
+            $unidade['movimento'] = " (0 - LOW / 1 - HIGH)";
+            $unidade['luz'] = " (0 - LOW / 1 - HIGH)";
+            $unidade['campainha'] = " (0 - LOW / 1 - HIGH)";
+
+
+
+            /* Estados dos Sensores */
+
+            $estado_sensor['detetor_fumo']['trip_value'] = 39;
+            $estado_sensor['detetor_fumo']['on'] = "<span style=\"color: red;\">Alarme Ativo</span>";
+            $estado_sensor['detetor_fumo']['off'] = "<span style=\"color: green;\">A monitorizar...</span>";
+
+            $estado_sensor['temperatura']['trip_value'] = 30;
+            $estado_sensor['temperatura']['on'] = "<span style=\"color: green;\">Ligado</span>";
+            $estado_sensor['temperatura']['off'] = "<span style=\"color: red;\">Desligado</span>";
+
+            $estado_sensor['ralo_agua']['trip_value'] = 4;
+            $estado_sensor['ralo_agua']['on'] = "<span style=\"color: green;\">Aberto</span>";
+            $estado_sensor['ralo_agua']['off'] = "<span style=\"color: red;\">Fechado</span>";
+
+            $estado_sensor['movimento']['trip_value'] = 0; //verificado como maior que 0 (bool)
+            $estado_sensor['movimento']['on'] = "<span style=\"color: red;\">Movimento Detetado</span>";
+            $estado_sensor['movimento']['off'] = "<span style=\"color: green;\">A monitorizar...</span>";
+
+            $estado_sensor['luz']['trip_value'] = 0; //verificado como maior que 0 (bool)
+            $estado_sensor['luz']['on'] = "<span style=\"color: green;\">Ligada</span>";
+            $estado_sensor['luz']['off'] = "<span style=\"color: red;\">Desligada</span>";
+
+            $estado_sensor['campainha']['trip_value'] = 0; //verificado como maior que 0 (bool)
+            $estado_sensor['campainha']['on'] = "<span style=\"color: blue;\">A tocar...</span>";
+            $estado_sensor['campainha']['off'] = "<span style=\"color: green;\">À espera</span>";
+        ?>
         <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand" href="./">
@@ -59,16 +85,16 @@
                             <a class="nav-link" id="sensor_temperatura" href="./sensor.php?nome=temperatura">Ventilação</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="sensor_3" href="./sensor.php?nome=teste">Sensor 3</a>
+                            <a class="nav-link" id="sensor_ralo_agua" href="./sensor.php?nome=ralo_agua">Ralo contra Inundação</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="sensor_4" href="./sensor.php?nome=teste">Sensor 4</a>
+                            <a class="nav-link" id="sensor_movimento" href="./sensor.php?nome=movimento">Sensor Movimento</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="sensor_5" href="./sensor.php?nome=teste">Sensor 5</a>
+                            <a class="nav-link" id="sensor_luz" href="./sensor.php?nome=luz">Iluminação</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="sensor_6" href="./sensor.php?nome=teste">Sensor 6</a>
+                            <a class="nav-link" id="sensor_campainha" href="./sensor.php?nome=campainha">Campainha</a>
                         </li>
                     </ul>
                 </div>
@@ -93,10 +119,10 @@
             <div class="row">
                 <div class="col-12 col-sm-5">
                     <div class="card">
-                        <div class="card-header text-center">Sensor <?= $_GET["nome"] ?></div>
+                        <div class="card-header text-center"><?= $nome_sensor[$_GET["nome"]] ?></div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><?= file_get_contents("./dados/" . $_GET["nome"] . "/valor.txt") > $estado_sensor[$_GET['nome']]['trip_value'] ? $estado_sensor[$_GET['nome']]['on'] : $estado_sensor[$_GET['nome']]['off'] ?></li>
-                            <li class="list-group-item">Nível de fumo: <?= file_get_contents("./dados/" . $_GET["nome"] . "/valor.txt") ?><?= $unidade[$_GET['nome']] ?></li>
+                            <li class="list-group-item">Valor: <?= file_get_contents("./dados/" . $_GET["nome"] . "/valor.txt") ?><?= $unidade[$_GET['nome']] ?></li>
                             <li class="list-group-item">Última Atualização: <?= file_get_contents("./dados/" . $_GET["nome"] . "/hora.txt") ?></li>
                         </ul>
                     </div>
@@ -145,12 +171,13 @@
                 </ul>
             </footer>
         </div>
-        <script type="text/javascript" src="./js/jquery.min.js"></script>
+        <script src="./js/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="./js/script.js"></script>
-        <script type="text/javascript">
+        <script src="./js/script.js"></script>
+        <script>
             $(document).ready(() => {
                 $("#sensor_<?= $_GET['nome'] ?>").addClass("active").attr("aria-current", "page");
+                acionarEstadoSistema(<?= calcularEstadoSistema() ?>);
             });
         </script>
     </body>
