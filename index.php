@@ -26,18 +26,23 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="./">Inicio</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Sensores
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="./sensor.php?nome=detetor_fumo">Detetor de Incêndio</a></li>
-                            <li><a class="dropdown-item" href="./sensor.php?nome=temperatura">Ventilação</a></li>
-                            <li><a class="dropdown-item" href="./sensor.php?nome=teste">Sensor 3</a></li>
-                            <li><a class="dropdown-item" href="./sensor.php?nome=teste">Sensor 4</a></li>
-                            <li><a class="dropdown-item" href="./sensor.php?nome=teste">Sensor 5</a></li>
-                            <li><a class="dropdown-item" href="./sensor.php?nome=teste">Sensor 6</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" id="sensor_detetor_fumo" href="./sensor.php?nome=detetor_fumo">Detetor de Incêndio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="sensor_temperatura" href="./sensor.php?nome=temperatura">Ventilação</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="sensor_3" href="./sensor.php?nome=teste">Sensor 3</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="sensor_4" href="./sensor.php?nome=teste">Sensor 4</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="sensor_5" href="./sensor.php?nome=teste">Sensor 5</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="sensor_6" href="./sensor.php?nome=teste">Sensor 6</a>
                     </li>
                 </ul>
             </div>
@@ -151,7 +156,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-2">
             <div class="col m-2 text-center">
                 Última imagem captada pela camara de vigilância.
             </div>
