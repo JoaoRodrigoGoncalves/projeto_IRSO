@@ -1,5 +1,4 @@
 #codigo para tirar foto 
-#ate o utilizador presionar x
 #com um delay de 3 segundos
 
 import sys
